@@ -1,24 +1,24 @@
 <?php
 /*
-Plugin Name: CFS - Google Maps Add-on
-Plugin URI: https://uproot.us/
+Plugin Name: CFS - Google Maps
 Description: Adds a Google Maps field type.
-Version: 1.1.0
-Author: Matt Gibbs
-Author URI: https://uproot.us/
+Version: 2.0
+Author: Matt Gibbs, adapted by Felipe Elia
+Author URI: http://felipeelia.com.br/
+Text Domain: cfs-google-maps
+Domain Path: /languages
 License: GPL2
 */
 
-$cfs_google_maps_addon = new cfs_google_maps_addon();
-
-class cfs_google_maps_addon
-{
-    function __construct() {
-        add_filter('cfs_field_types', array($this, 'cfs_field_types'));
-    }
-
-    function cfs_field_types( $field_types ) {
-        $field_types['google_maps'] = dirname( __FILE__ ) . '/google_maps.php';
-        return $field_types;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
 }
+
+load_plugin_textdomain( 'cfs-google-maps', false, basename( dirname( __FILE__ ) ) . '/languages' );
+
+function cfs_google_maps_add_field_type( $types ) {
+    include( 'cfs_google_maps.php' );
+	$types['google_maps'] = dirname( __FILE__ ) . '/cfs_google_maps.php';
+	return $types;
+}
+add_filter( 'cfs_field_types', 'cfs_google_maps_add_field_type' );
